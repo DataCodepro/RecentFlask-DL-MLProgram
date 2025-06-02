@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="home-content">
+        <h2>Welcome to the Iris Disease Classification System</h2>
+        <p>This tool helps detect signs of diabetes from iris images using deep learning.</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>Fast Analysis</h3>
+                <p>Get results in seconds with our advanced machine learning algorithm.</p>
+            </div>
+            <div class="feature-card">
+                <h3>High Accuracy</h3>
+                <p>Our model is trained on thousands of iris images for reliable results.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Easy to Use</h3>
+                <p>Simply upload an iris image and receive immediate classification.</p>
+            </div>
+        </div>
+        
+        <div class="call-to-action">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('predict') }}" class="cta-button">Start Classification</a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="cta-button">Register Now</a>
+                <p class="cta-text">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <style>
+        .home-content {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        h2 {
+            color: #1a5276;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            width: 30%;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            color: #2471A3;
+            margin-bottom: 10px;
+        }
+        
+        .call-to-action {
+            margin-top: 40px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: #2E86C1;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: #1A5276;
+        }
+        
+        .cta-text {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        
+        .cta-text a {
+            color: #2E86C1;
+            text-decoration: none;
+        }
+        
+        .cta-text a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .features {
+                flex-direction: column;
+            }
+            
+            .feature-card {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+{% endblock %}

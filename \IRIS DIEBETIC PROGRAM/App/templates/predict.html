@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="prediction-page">
+    <div class="welcome-banner">
+        <h2>Welcome, {{ username }}!</h2>
+        <p>Use our AI-powered tool to analyze iris images for diabetes indicators</p>
+    </div>
+
+    <div class="upload-box">
+        <h3>Upload Iris Image for Analysis</h3>
+        <form method="post" enctype="multipart/form-data">
+            <div class="file-drop-area">
+                <span class="fake-btn">Choose file</span>
+                <span class="file-msg" id="file-msg">or drag and drop image here</span>
+                <input type="file" name="iris_image" id="file-input" accept="image/*" required>
+            </div>
+            <button type="submit" class="analyze-btn">
+                <span class="btn-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 10v12m2-12v12m2-12v12m2-12v12m2-12v12M3 8l18-5M3 17h18"></path>
+                    </svg>
+                </span>
+                Analyze Iris Image
+            </button>
+        </form>
+    </div>
+
+    {% if prediction %}
+    <div class="result-container">
+        <div class="result-header">
+            <h3>Analysis Results</h3>
+            <span class="result-timestamp">{{ timestamp }}</span>
+        </div>
+        <div class="prediction-box">
+            <div class="prediction-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4m0-4h.01"></path>
+                </svg>
+            </div>
+            <div class="prediction-text">
+                <p><strong>{{ prediction }}</strong></p>
+                <p class="prediction-note">Please consult with a healthcare professional for medical advice</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="info-section">
+        <h4>Tips for Accurate Analysis</h4>
+        <div class="tips-container">
+            <div class="tip">
+                <div class="tip-icon">1</div>
+                <div class="tip-content">
+                    <h5>Good Lighting</h5>
+                    <p>Ensure image is taken in well-lit conditions</p>
+                </div>
+            </div>
+            <div class="tip">
+                <div class="tip-icon">2</div>
+                <div class="tip-content">
+                    <h5>Clear Focus</h5>
+                    <p>Image should be in sharp focus with iris details visible</p>
+                </div>
+            </div>
+            <div class="tip">
+                <div class="tip-icon">3</div>
+                <div class="tip-content">
+                    <h5>No Reflections</h5>
+                    <p>Avoid camera flash or light reflections on the eye</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .prediction-page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .welcome-banner {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .welcome-banner h2 {
+        color: #0f4c75;
+        margin: 0 0 10px 0;
+        font-size: 28px;
+    }
+    
+    .welcome-banner p {
+        color: #3282b8;
+        margin: 0;
+        font-size: 16px;
+    }
+    
+    .upload-box {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    }
+    
+    .upload-box h3 {
+        color: #0f4c75;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 20px;
+        text-align: center;
+    }
+    
+    .file-drop-area {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        height: 150px;
+        padding: 25px;
+        border: 2px dashed #a2d5f2;
+        border-radius: 10px;
+        transition: 0.2s;
+        background-color: #f1faff;
+        margin-bottom: 20px;
+    }
+    
+    .file-drop-area:hover {
+        border-color: #3282b8;
+        background-color: #e1f5ff;
+    }
+    
+    .fake-btn {
+        display: inline-block;
+        padding: 8px 20px;
+        margin-bottom: 10px;
+        background-color: #3282b8;
+        color: #fff;
+        border-radius: 30px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    
+    .file-msg {
+        font-size: 14px;
+        color: #7d8fa1;
+        transition: 0.2s;
+    }
+    
+    .file-drop-area.is-active {
+        background-color: #e1f5ff;
+    }
+    
+    input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    .analyze-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 14px 0;
+        border: none;
+        border-radius: 8px;
+        background-color: #0f4c75;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .analyze-btn:hover {
+        background-color: #0d3d5e;
+    }
+    
+    .btn-icon {
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .result-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    }
+    
+    .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .result-header h3 {
+        color: #0f4c75;
+        margin: 0;
+        font-size: 20px;
+    }
+    
+    .result-timestamp {
+        color: #7d8fa1;
+        font-size: 14px;
+    }
+    
+    .prediction-box {
+        display: flex;
+        align-items: center;
+        background-color: #f1faff;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 5px solid #3282b8;
+    }
+    
+    .prediction-icon {
+        margin-right: 15px;
+        color: #3282b8;
+    }
+    
+    .prediction-text p {
+        margin: 0 0 5px 0;
+        font-size: 18px;
+        color: #333;
+    }
+    
+    .prediction-note {
+        font-size: 13px !important;
+        color: #7d8fa1 !important;
+    }
+    
+    .info-section {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    }
+    
+    .info-section h4 {
+        color: #0f4c75;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 18px;
+        text-align: center;
+    }
+    
+    .tips-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: space-between;
+    }
+    
+    .tip {
+        flex: 1 1 calc(33.333% - 15px);
+        min-width: 200px;
+        display: flex;
+        align-items: flex-start;
+    }
+    
+    .tip-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        background-color: #a2d5f2;
+        color: #0f4c75;
+        border-radius: 50%;
+        margin-right: 10px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    
+    .tip-content h5 {
+        margin: 0 0 5px 0;
+        color: #0f4c75;
+        font-size: 16px;
+    }
+    
+    .tip-content p {
+        margin: 0;
+        color: #666;
+        font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+        .tips-container {
+            flex-direction: column;
+        }
+        
+        .tip {
+            min-width: 100%;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.getElementById('file-input');
+        const fileMsg = document.getElementById('file-msg');
+        const dropArea = document.querySelector('.file-drop-area');
+
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files.length > 0) {
+                fileMsg.textContent = fileInput.files[0].name;
+            } else {
+                fileMsg.textContent = 'or drag and drop image here';
+            }
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, e => {
+                e.preventDefault();
+                dropArea.classList.add('is-active');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, e => {
+                e.preventDefault();
+                dropArea.classList.remove('is-active');
+            });
+        });
+
+        dropArea.addEventListener('drop', e => {
+            fileInput.files = e.dataTransfer.files;
+            if (fileInput.files.length > 0) {
+                fileMsg.textContent = fileInput.files[0].name;
+            }
+        });
+    });
+</script>
+{% endblock %}
