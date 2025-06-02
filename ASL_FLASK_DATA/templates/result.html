@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 28px;
+        }
+        
+        .result-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .prediction {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3498db;
+            margin: 20px 0;
+            letter-spacing: 1px;
+        }
+        
+        .confidence {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .confidence-high {
+            color: #27ae60;
+        }
+        
+        .confidence-medium {
+            color: #f39c12;
+        }
+        
+        .confidence-low {
+            color: #e74c3c;
+        }
+        
+        .chart-container {
+            max-width: 100%;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chart-container img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .back-link {
+            display: block;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            margin: 20px auto 10px;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            .prediction {
+                font-size: 28px;
+            }
+            
+            .confidence {
+                font-size: 18px;
+            }
+            
+            .result-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Prediction Result</h2>
+        
+        <div class="result-card">
+            <div class="result-item">
+                <p>The ASL letter you showed is:</p>
+                <div class="prediction">{{ pred_class }}</div>
+            </div>
+            
+            <div class="result-item">
+                <p>Confidence Level:</p>
+                <div class="confidence {% if confidence >= 80 %}confidence-high{% elif confidence >= 50 %}confidence-medium{% else %}confidence-low{% endif %}">
+                    {{ confidence | round(2) }}%
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ chart }}" alt="Confidence Chart">
+        </div>
+        
+        <a href="{{ url_for('index') }}" class="back-link">Back to Home</a>
+    </div>
+    
+    <script>
+        // Optional: Add animation effects when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultCard = document.querySelector('.result-card');
+            resultCard.style.opacity = '0';
+            resultCard.style.transform = 'translateY(20px)';
+            resultCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            
+            setTimeout(function() {
+                resultCard.style.opacity = '1';
+                resultCard.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
